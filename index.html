@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,63 +13,100 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 30px;
+            width: 380px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 15px;
+            border: none;
+            background: rgba(255,255,255,0.6);
             backdrop-filter: blur(10px);
-        }.container {
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(15px);
-        border-radius: 20px;
-        padding: 30px;
-        width: 350px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255,255,255,0.4);
-        text-align: center;
-    }
+        }
 
-    h2 {
-        color: white;
-        margin-bottom: 20px;
-        text-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    }
+        button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(10px);
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-    button {
-        width: 100%;
-        margin: 10px 0;
-        padding: 12px;
-        border: none;
-        border-radius: 15px;
-        background: rgba(255,255,255,0.6);
-        backdrop-filter: blur(10px);
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+        button:hover {
+            background: rgba(255,255,255,0.9);
+        }
 
-    button:hover {
-        background: rgba(255,255,255,0.9);
-    }
-
-    .hasil {
-        margin-top: 20px;
-        font-size: 18px;
-        color: white;
-        text-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    }
-</style>
-
+        .hasil {
+            margin-top: 20px;
+            font-size: 18px;
+            color: white;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Pemilihan Ketua OSIS</h2>
+    <div class="container" id="formContainer">
+        <h2 style="color:white; text-shadow:0 3px 6px rgba(0,0,0,0.4)">Data Pemilih</h2>
+        <input type="text" id="nama" placeholder="Nama Lengkap" required>
+        <select id="kelas">
+            <option value="">Pilih Kelas</option>
+            <option>X</option>
+            <option>XI</option>
+            <option>XII</option>
+        </select>
+        <button onclick="lanjut()">Lanjut</button>
+    </div>
+
+    <div class="container" id="voteContainer" style="display:none;">
+        <h2>Pilih Ketua OSIS</h2>
         <button onclick="vote('arini')">Arini Ataka</button>
         <button onclick="vote('kaka')">Kaka Dwi Aprilianto</button>
         <button onclick="vote('bagus')">Bagus</button>
         <div class="hasil" id="hasil"></div>
-    </div><script>
+    </div>
+
+<script>
     let votes = {
         arini: 0,
         kaka: 0,
         bagus: 0
     };
+
+    function lanjut() {
+        let nama = document.getElementById("nama").value;
+        let kelas = document.getElementById("kelas").value;
+
+        if(nama === '' || kelas === ''){
+            alert("Isi data terlebih dahulu!");
+            return;
+        }
+
+        document.getElementById("formContainer").style.display = "none";
+        document.getElementById("voteContainer").style.display = "block";
+    }
 
     function vote(name) {
         votes[name]++;
@@ -79,6 +117,32 @@
         `;
     }
 </script>
-
 </body>
-  </html>
+</html>
+
+
+Sudah! ✅
+
+Sekarang tampilan pemilihan OSIS:
+
+✨ Ada halaman pertama berisi:
+
+Nama
+
+Kelas
+
+Tombol lanjut
+
+
+✨ Tema liquid glass elegan ala iPhone
+✨ Setelah mengisi data, baru masuk ke halaman voting
+✨ Vote akan menampilkan hasil jumlah suara
+
+Kalau mau ditambah:
+
+✅ animasi lebih mewah
+✅ card foto kandidat
+✅ hanya bisa vote sekali
+✅ tampilan hasil dengan grafik
+
+tinggal bilang ya 😁
