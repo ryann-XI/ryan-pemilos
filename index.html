@@ -1,144 +1,125 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pemilihan Ketua OSIS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pemilihan Ketua OSIS</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0e1624;
+  display:flex;
+  justify-content:center;
+  padding:20px;
+  color:white;
+}
 
-  <style>
-    :root{
-      --bg:#0f1724;
-      --glass-border: rgba(255,255,255,0.08);
-      --muted: rgba(255,255,255,0.6);
-    }
+.container{
+  width:100%;
+  max-width:900px;
+  display:flex;
+  gap:20px;
+}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      background: var(--bg);
-      font-family: Inter, sans-serif;
-      padding:40px 20px;
-      display:flex;
-      justify-content:center;
-    }
+.panel{
+  flex:1;
+  background:rgba(255,255,255,0.08);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:20px;
+  border-radius:15px;
+}
 
-    .container{
-      width:100%;
-      max-width:960px;
-      background:rgba(255,255,255,0.04);
-      border:1px solid var(--glass-border);
-      backdrop-filter:blur(8px);
-      border-radius:16px;
-      padding:24px;
-      display:grid;
-      grid-template-columns:1fr 380px;
-      gap:24px;
-    }
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:12px;
+  background:rgba(255,255,255,0.15);
+  color:white;
+}
 
-    form{
-      background:rgba(255,255,255,0.02);
-      padding:18px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.04);
-    }
+.candidate{
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+}
 
-    input{
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.05);
-      background:rgba(255,255,255,0.05);
-      color:white;
-      margin-bottom:12px;
-    }
+.candidate.selected{
+  border:1px solid #6da3ff;
+  background:rgba(110,160,255,0.25);
+}
 
-    .candidate{
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.05);
-      padding:12px;
-      border-radius:10px;
-      display:flex;
-      gap:10px;
-      cursor:pointer;
-      margin-bottom:10px;
-    }
+button{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,#7a57ff,#3f8aff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+}
 
-    .candidate.selected{
-      border:1px solid rgba(63,138,255,0.6);
-      background:rgba(63,138,255,0.15);
-    }
+.bar{
+  height:10px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.15);
+  overflow:hidden;
+}
 
-    button{
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      cursor:pointer;
-      font-weight:600;
-      margin-top:6px;
-    }
-
-    .primary{
-      background:linear-gradient(90deg,#7a57ff,#3f8aff);
-      color:white;
-      width:100%;
-    }
-
-    aside{
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.05);
-      padding:18px;
-      border-radius:12px;
-    }
-
-    .bar{
-      height:10px;
-      background:rgba(255,255,255,0.1);
-      border-radius:50px;
-      overflow:hidden;
-    }
-
-    .bar i{
-      display:block;
-      height:100%;
-      width:0%;
-      background:linear-gradient(90deg,#7a57ff,#3f8aff);
-      transition:width .6s;
-    }
-
-  </style>
+.bar i{
+  display:block;
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#7a57ff,#3f8aff);
+  transition:.6s;
+}
+</style>
 </head>
 <body>
+
 <div class="container">
 
-  <form id="voteForm">
-    <input id="fullname" placeholder="Nama Lengkap" />
-    <input id="kelas" placeholder="Kelas" />
+  <div class="panel">
+    <h2>Pemilihan Ketua OSIS</h2>
+
+    <input id="fullname" placeholder="Nama Lengkap">
+    <input id="kelas" placeholder="Kelas">
 
     <div id="candidateList"></div>
 
-    <button class="primary" type="submit">Kirim Suara</button>
-  </form>
+    <button id="voteBtn">Kirim Suara</button>
+  </div>
 
-  <aside>
-    <h3>Hasil Voting</h3>
+  <div class="panel">
+    <h2>Hasil Voting</h2>
     <div id="results"></div>
     <div style="margin-top:10px">Total: <span id="total">0</span></div>
-  </aside>
+  </div>
 
 </div>
 
 <script>
-const CANDIDATES = [
+const CANDIDATES=[
   {id:"arini",name:"Arini Ataka"},
   {id:"kaka",name:"Kaka Dwi"},
   {id:"bagus",name:"Bagus"}
 ];
 
-const STORAGE="votes_v1";
-const STORAGE_FLAG="voted_v1";
+const STORAGE="votes_v2";
+const STORAGE_FLAG="voted_v2";
 
+const fullname=document.getElementById("fullname");
+const kelas=document.getElementById("kelas");
+const voteBtn=document.getElementById("voteBtn");
 const candidateList=document.getElementById("candidateList");
 const results=document.getElementById("results");
 const totalEl=document.getElementById("total");
@@ -181,8 +162,8 @@ function renderResults(){
   results.innerHTML="";
 
   CANDIDATES.forEach(c=>{
-    const wrap=document.createElement("div");
-    wrap.textContent=c.name+" ("+(v[c.id]||0)+")";
+    const t=document.createElement("div");
+    t.textContent=`${c.name} (${v[c.id]})`;
 
     const bar=document.createElement("div");
     bar.className="bar";
@@ -190,19 +171,20 @@ function renderResults(){
     const fill=document.createElement("i");
     bar.appendChild(fill);
 
-    results.appendChild(wrap);
+    results.appendChild(t);
     results.appendChild(bar);
 
-    setTimeout(()=>{
-      fill.style.width=total?((v[c.id]/total)*100)+"%":"0%";
-    },50);
+    setTimeout(()=> fill.style.width=total?(v[c.id]/total*100)+"%":"0%",50);
   });
 
   totalEl.textContent=total;
 }
 
 function submitVote(id){
-  if(localStorage.getItem(STORAGE_FLAG)) return;
+  if(localStorage.getItem(STORAGE_FLAG)){
+    alert("Sudah pernah voting");
+    return;
+  }
 
   const v=readVotes();
   v[id]++;
@@ -210,22 +192,17 @@ function submitVote(id){
   localStorage.setItem(STORAGE_FLAG,"1");
 
   renderResults();
+  document.querySelectorAll("button,input,.candidate").forEach(e=>e.disabled=true);
 
-  document.querySelector("aside").scrollIntoView({behavior:"smooth"});
+  document.querySelector(".panel:nth-child(2)").scrollIntoView({behavior:"smooth"});
 }
 
-document.getElementById("voteForm").onsubmit=e=>{
-  e.preventDefault();
-
-  const name=fullname.value.trim();
-  const kelas=kelas.value.trim();
+voteBtn.onclick=()=>{
   const selected=document.querySelector(".candidate.selected");
-
-  if(!name||!kelas||!selected){
-    alert("Lengkapi data & pilih kandidat");
+  if(!fullname.value||!kelas.value||!selected){
+    alert("Lengkapi data & pilih kandidat!");
     return;
   }
-
   submitVote(selected.dataset.id);
 };
 
