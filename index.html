@@ -6,10 +6,14 @@
 <title>Pemilihan Ketua OSIS</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family: Arial, sans-serif;
-  background:#0e1624;
+  font-family: 'Segoe UI', sans-serif;
+  background:linear-gradient(135deg,#0b1220,#141d2e);
   display:flex;
   justify-content:center;
   padding:20px;
@@ -18,37 +22,62 @@ body{
 
 .container{
   width:100%;
-  max-width:900px;
+  max-width:600px;
   display:flex;
+  flex-direction:column;
   gap:20px;
 }
 
 .panel{
-  flex:1;
   background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(15px);
   border:1px solid rgba(255,255,255,0.15);
   padding:20px;
-  border-radius:15px;
+  border-radius:18px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+  animation:fade .4s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+h2{
+  text-align:center;
+  margin-top:0;
+  font-weight:600;
+  letter-spacing:.5px;
 }
 
 input{
   width:100%;
-  padding:12px;
-  border-radius:10px;
+  padding:14px;
+  border-radius:12px;
   border:none;
-  margin-bottom:12px;
+  margin-bottom:14px;
   background:rgba(255,255,255,0.15);
   color:white;
+  font-size:15px;
+  outline:none;
+}
+
+input:focus{
+  background:rgba(255,255,255,0.22);
 }
 
 .candidate{
   background:rgba(255,255,255,0.12);
   border:1px solid rgba(255,255,255,0.15);
-  padding:12px;
-  border-radius:10px;
+  padding:14px;
+  border-radius:12px;
   margin-bottom:10px;
   cursor:pointer;
+  transition:.25s;
+}
+
+.candidate:hover{
+  background:rgba(255,255,255,0.20);
 }
 
 .candidate.selected{
@@ -58,29 +87,41 @@ input{
 
 button{
   width:100%;
-  padding:12px;
-  border-radius:10px;
+  padding:14px;
+  border-radius:12px;
   border:none;
-  background:linear-gradient(90deg,#7a57ff,#3f8aff);
+  background:linear-gradient(90deg,#6f79ff,#3fa8ff);
   color:white;
   font-weight:bold;
   cursor:pointer;
-  margin-top:10px;
+  font-size:16px;
+  transition:.25s;
+}
+
+button:hover{
+  opacity:.9;
+  transform:scale(.98);
 }
 
 .bar{
-  height:10px;
+  height:12px;
   border-radius:20px;
   background:rgba(255,255,255,0.15);
   overflow:hidden;
+  margin-bottom:10px;
 }
 
 .bar i{
   display:block;
   height:100%;
   width:0%;
-  background:linear-gradient(90deg,#7a57ff,#3f8aff);
+  background:linear-gradient(90deg,#6f79ff,#3fa8ff);
   transition:.6s;
+}
+
+.result-name{
+  font-size:14px;
+  margin-bottom:4px;
 }
 </style>
 </head>
@@ -102,7 +143,9 @@ button{
   <div class="panel">
     <h2>Hasil Voting</h2>
     <div id="results"></div>
-    <div style="margin-top:10px">Total: <span id="total">0</span></div>
+    <div style="margin-top:10px;text-align:center;font-size:14px;">
+      Total Suara: <span id="total">0</span>
+    </div>
   </div>
 
 </div>
@@ -114,8 +157,8 @@ const CANDIDATES=[
   {id:"bagus",name:"Bagus"}
 ];
 
-const STORAGE="votes_v2";
-const STORAGE_FLAG="voted_v2";
+const STORAGE="votes_final";
+const STORAGE_FLAG="voted_final";
 
 const fullname=document.getElementById("fullname");
 const kelas=document.getElementById("kelas");
@@ -162,17 +205,20 @@ function renderResults(){
   results.innerHTML="";
 
   CANDIDATES.forEach(c=>{
+    const wrapper=document.createElement("div");
+
     const t=document.createElement("div");
+    t.className="result-name";
     t.textContent=`${c.name} (${v[c.id]})`;
 
     const bar=document.createElement("div");
     bar.className="bar";
-
     const fill=document.createElement("i");
     bar.appendChild(fill);
 
-    results.appendChild(t);
-    results.appendChild(bar);
+    wrapper.appendChild(t);
+    wrapper.appendChild(bar);
+    results.appendChild(wrapper);
 
     setTimeout(()=> fill.style.width=total?(v[c.id]/total*100)+"%":"0%",50);
   });
@@ -182,7 +228,7 @@ function renderResults(){
 
 function submitVote(id){
   if(localStorage.getItem(STORAGE_FLAG)){
-    alert("Sudah pernah voting");
+    alert("Anda sudah melakukan voting");
     return;
   }
 
@@ -192,7 +238,6 @@ function submitVote(id){
   localStorage.setItem(STORAGE_FLAG,"1");
 
   renderResults();
-  document.querySelectorAll("button,input,.candidate").forEach(e=>e.disabled=true);
 
   document.querySelector(".panel:nth-child(2)").scrollIntoView({behavior:"smooth"});
 }
