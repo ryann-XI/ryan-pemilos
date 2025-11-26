@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemilihan Ketua OSIS</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=60') no-repeat center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            backdrop-filter: blur(10px);
+        }.container {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 30px;
+        width: 350px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255,255,255,0.4);
+        text-align: center;
+    }
+
+    h2 {
+        color: white;
+        margin-bottom: 20px;
+        text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+
+    button {
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        border: none;
+        border-radius: 15px;
+        background: rgba(255,255,255,0.6);
+        backdrop-filter: blur(10px);
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: rgba(255,255,255,0.9);
+    }
+
+    .hasil {
+        margin-top: 20px;
+        font-size: 18px;
+        color: white;
+        text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h2>Pemilihan Ketua OSIS</h2>
+        <button onclick="vote('arini')">Arini Ataka</button>
+        <button onclick="vote('kaka')">Kaka Dwi Aprilianto</button>
+        <button onclick="vote('bagus')">Bagus</button>
+        <div class="hasil" id="hasil"></div>
+    </div><script>
+    let votes = {
+        arini: 0,
+        kaka: 0,
+        bagus: 0
+    };
+
+    function vote(name) {
+        votes[name]++;
+        document.getElementById("hasil").innerHTML = `
+            Arini Ataka: ${votes.arini} suara<br>
+            Kaka Dwi Aprilianto: ${votes.kaka} suara<br>
+            Bagus: ${votes.bagus} suara
+        `;
+    }
+</script>
+
+</body>
+  </html>
