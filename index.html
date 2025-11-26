@@ -1,148 +1,557 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemilihan Ketua OSIS</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1400&q=60') no-repeat center/cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pemilihan Ketua OSIS</title>
 
-        .container {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            padding: 30px;
-            width: 380px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255,255,255,0.4);
-            text-align: center;
-            animation: fadeIn 0.5s ease;
-        }
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.08);
+      --accent: linear-gradient(90deg, rgba(120,87,255,0.9), rgba(63,138,255,0.9));
+      --glass-blur: 8px;
+      --muted: rgba(255,255,255,0.6);
+      --success: #2dd4bf;
+      --danger: #fb7185;
+      --card-padding: 22px;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 15px;
-            border: none;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(10px);
-        }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:
+        radial-gradient(800px 400px at 10% 10%, rgba(63,138,255,0.06), transparent 10%),
+        radial-gradient(700px 300px at 90% 95%, rgba(120,87,255,0.05), transparent 10%),
+        var(--bg);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:40px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
 
-        button {
-            width: 100%;
-            margin: 10px 0;
-            padding: 12px;
-            border: none;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(10px);
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+    .container{
+      width:100%;
+      max-width:980px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
+      border: 1px solid var(--glass-border);
+      border-radius:16px;
+      padding:28px;
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:24px;
+    }
 
-        button:hover {
-            background: rgba(255,255,255,0.9);
-        }
+    header.app-header{
+      grid-column: 1 / -1;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
 
-        .hasil {
-            margin-top: 20px;
-            font-size: 18px;
-            color: white;
-            text-shadow: 0 3px 6px rgba(0,0,0,0.3);
-        }
-    </style>
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 -6px 12px rgba(0,0,0,0.35);
+    }
+    .logo svg{filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));}
+
+    .title h1{margin:0;font-size:18px;font-weight:700;letter-spacing: -0.2px}
+    .title p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Form column */
+    form.vote-form{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border:1px solid rgba(255,255,255,0.04);
+      padding: var(--card-padding);
+      border-radius:12px;
+    }
+    .field{margin-bottom:14px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input[type="text"]{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.04);
+      background: rgba(255,255,255,0.02);
+      color:inherit;
+      font-size:14px;
+      outline:none;
+      transition:box-shadow .15s, border-color .15s;
+    }
+    input[type="text"]:focus{
+      box-shadow: 0 6px 18px rgba(63,138,255,0.08);
+      border-color: rgba(63,138,255,0.35);
+    }
+
+    .candidates{
+      display:flex;
+      gap:12px;
+      flex-direction:column;
+    }
+
+    .candidate{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.03);
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      transition:transform .12s, box-shadow .12s, border-color .12s;
+      cursor:pointer;
+    }
+    .candidate:hover{ transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.6); border-color: rgba(255,255,255,0.06)}
+    .candidate input{display:none}
+    .candidate .meta{flex:1}
+    .cand-name{font-weight:600}
+    .cand-role{font-size:13px;color:var(--muted)}
+
+    .avatar{
+      width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      font-weight:700;font-size:18px;color:inherit;
+    }
+
+    .candidate.selected{
+      border: 1px solid rgba(63,138,255,0.45);
+      box-shadow: 0 10px 30px rgba(63,138,255,0.07);
+      transform: translateY(-6px);
+    }
+
+    .actions{
+      display:flex;gap:12px;margin-top:12px;
+    }
+    button.btn{
+      padding:10px 14px;border-radius:10px;border:0;font-weight:600;
+      cursor:pointer;font-size:14px;
+    }
+    button.primary{
+      background: linear-gradient(90deg, #7a57ff, #3f8aff);
+      color:white; box-shadow: 0 8px 26px rgba(63,138,255,0.12);
+    }
+    button.ghost{
+      background: transparent;
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted);
+    }
+    .note{font-size:13px;color:var(--muted);margin-top:8px}
+
+    /* Right column: results / info */
+    aside.panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:var(--card-padding);
+      border-radius:12px;
+      height:100%;
+      display:flex;flex-direction:column;gap:12px;
+    }
+
+    .results-list{display:flex;flex-direction:column;gap:10px}
+    .result-item{
+      display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.006), transparent);
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .bar{
+      height:10px;border-radius:999px;background: rgba(255,255,255,0.04);
+      overflow:hidden;flex:1;position:relative;
+    }
+    .bar > i{
+      position:absolute;left:0;top:0;bottom:0;width:0%;
+      background: linear-gradient(90deg, rgba(122,87,255,0.9), rgba(63,138,255,0.9));
+      transition: width .6s ease;
+    }
+    .count{min-width:44px;text-align:right;font-weight:600}
+
+    .small{font-size:13px;color:var(--muted)}
+
+    /* Footer */
+    .footer{
+      display:flex;align-items:center;justify-content:space-between;margin-top:10px;
+      color:var(--muted);font-size:13px;
+    }
+
+    /* Modal (confirmation) */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;
+      z-index:50;
+    }
+    .modal{
+      width:100%;max-width:520px;padding:18px;border-radius:12px;background:linear-gradient(180deg, #071029, #081226);
+      border:1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 60px rgba(2,6,23,0.8);
+    }
+    .modal h3{margin:0 0 8px 0}
+    .modal p{margin:0 0 16px 0;color:var(--muted)}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr; padding:18px}
+      aside.panel{order:2}
+      form.vote-form{order:1}
+    }
+
+    /* tiny focus */
+    .focus-outline:focus{outline:3px solid rgba(63,138,255,0.18);outline-offset:3px;border-radius:8px}
+  </style>
 </head>
 <body>
-    <div class="container" id="formContainer">
-        <h2 style="color:white; text-shadow:0 3px 6px rgba(0,0,0,0.4)">Data Pemilih</h2>
-        <input type="text" id="nama" placeholder="Nama Lengkap" required>
-        <select id="kelas">
-            <option value="">Pilih Kelas</option>
-            <option>X</option>
-            <option>XI</option>
-            <option>XII</option>
-        </select>
-        <button onclick="lanjut()">Lanjut</button>
+  <div class="container" role="application" aria-labelledby="appTitle">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <!-- simple emblem -->
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="22" height="22" rx="5" fill="url(#g)"></rect>
+            <defs>
+              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stop-color="#7A57FF" stop-opacity="0.95"></stop>
+                <stop offset="1" stop-color="#3F8AFF" stop-opacity="0.95"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="title">
+          <h1 id="appTitle">Pemilihan Ketua OSIS</h1>
+          <p>Suara sah hanya bila mengisi Nama Lengkap & Kelas</p>
+        </div>
+      </div>
+
+      <div style="text-align:right">
+        <div style="font-size:13px;color:var(--muted)">Sekolah Menengah — Pilkasis 2025</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px">Desain: Liquid glass tipis • Elegan</div>
+      </div>
+    </header>
+
+    <!-- FORM -->
+    <form id="voteForm" class="vote-form" autocomplete="off" novalidate>
+      <div class="field">
+        <label for="fullname">Nama Lengkap <span aria-hidden="true" style="color:var(--danger)">*</span></label>
+        <input id="fullname" name="fullname" type="text" placeholder="Contoh: Rina Sari" aria-required="true" minlength="3" />
+      </div>
+
+      <div class="field">
+        <label for="kelas">Kelas <span aria-hidden="true" style="color:var(--danger)">*</span></label>
+        <input id="kelas" name="kelas" type="text" placeholder="Contoh: XI IPA 1 / 11A" aria-required="true" />
+      </div>
+
+      <div class="field">
+        <label>Pilih Kandidat</label>
+        <div class="candidates" role="radiogroup" aria-labelledby="pilihLabel" id="candidateList">
+          <!-- Candidate items will be injected by JS -->
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" id="btnPreview" class="btn ghost">Pratinjau</button>
+        <button type="submit" class="btn primary">Kirim Suara</button>
+      </div>
+
+      <div class="note">Catatan: Voting disimpan secara lokal pada perangkat ini. Untuk penggunaan nyata, ganti penyimpanan ke server yang terautentikasi.</div>
+    </form>
+
+    <!-- RIGHT PANEL -->
+    <aside class="panel" aria-live="polite">
+      <div>
+        <strong>Hasil Sementara</strong>
+        <div class="small">Jumlah pemilih & persentase</div>
+      </div>
+
+      <div class="results-list" id="resultsList" aria-hidden="false">
+        <!-- result items injected by JS -->
+      </div>
+
+      <div class="footer">
+        <div class="small">Total pemilih:</div>
+        <div id="totalVoters" style="font-weight:700">0</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Konfirmasi Suara</h3>
+      <p id="modalText">Anda akan memilih: <strong id="modalCandidate"></strong><br/>Nama: <span id="modalName"></span> • Kelas: <span id="modalClass"></span></p>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:14px">
+        <button type="button" id="modalCancel" class="btn ghost">Batal</button>
+        <button type="button" id="modalConfirm" class="btn primary">Konfirmasi & Kirim</button>
+      </div>
     </div>
+  </div>
 
-    <div class="container" id="voteContainer" style="display:none;">
-        <h2>Pilih Ketua OSIS</h2>
-        <button onclick="vote('arini')">Arini Ataka</button>
-        <button onclick="vote('kaka')">Kaka Dwi Aprilianto</button>
-        <button onclick="vote('bagus')">Bagus</button>
-        <div class="hasil" id="hasil"></div>
-    </div>
+  <script>
+    (function(){
+      // Kandidat (id unik, nama)
+      const CANDIDATES = [
+        {id: 'arini-ataka', name: 'Arini Ataka'},
+        {id: 'kaka-dwi', name: 'Kaka Dwi'},
+        {id: 'bagus', name: 'Bagus'}
+      ];
 
-<script>
-    let votes = {
-        arini: 0,
-        kaka: 0,
-        bagus: 0
-    };
+      // Storage keys
+      const STORAGE_KEY = 'pilkasis_votes_v1';
+      const STORAGE_FLAG_VOTED = 'pilkasis_voted_flag_v1';
 
-    function lanjut() {
-        let nama = document.getElementById("nama").value;
-        let kelas = document.getElementById("kelas").value;
+      // Elements
+      const candidateList = document.getElementById('candidateList');
+      const resultsList = document.getElementById('resultsList');
+      const totalVotersEl = document.getElementById('totalVoters');
+      const fullnameInput = document.getElementById('fullname');
+      const kelasInput = document.getElementById('kelas');
+      const voteForm = document.getElementById('voteForm');
+      const btnPreview = document.getElementById('btnPreview');
 
-        if(nama === '' || kelas === ''){
-            alert("Isi data terlebih dahulu!");
-            return;
+      const modalBackdrop = document.getElementById('modalBackdrop');
+      const modalCandidate = document.getElementById('modalCandidate');
+      const modalName = document.getElementById('modalName');
+      const modalClass = document.getElementById('modalClass');
+      const modalCancel = document.getElementById('modalCancel');
+      const modalConfirm = document.getElementById('modalConfirm');
+
+      // Init votes structure if not present
+      function readVotes(){
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw){
+          const init = {};
+          CANDIDATES.forEach(c => init[c.id] = 0);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(init));
+          return init;
+        }
+        try{
+          return JSON.parse(raw);
+        }catch(e){
+          // reset if corrupted
+          const init = {};
+          CANDIDATES.forEach(c => init[c.id] = 0);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(init));
+          return init;
+        }
+      }
+
+      function writeVotes(obj){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+      }
+
+      // Render candidate cards
+      function renderCandidates(){
+        candidateList.innerHTML = '';
+        CANDIDATES.forEach(c => {
+          const wrapper = document.createElement('label');
+          wrapper.className = 'candidate';
+          wrapper.tabIndex = 0;
+          wrapper.setAttribute('data-id', c.id);
+
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = 'candidate';
+          input.value = c.id;
+          input.id = 'rad-' + c.id;
+          input.setAttribute('aria-labelledby', 'lbl-'+c.id);
+
+          const avatar = document.createElement('div');
+          avatar.className = 'avatar';
+          avatar.setAttribute('aria-hidden','true');
+          avatar.textContent = c.name.split(' ').map(s=>s[0]||'').slice(0,2).join('').toUpperCase();
+
+          const meta = document.createElement('div');
+          meta.className = 'meta';
+          const nm = document.createElement('div'); nm.className = 'cand-name'; nm.id = 'lbl-'+c.id; nm.textContent = c.name;
+          const role = document.createElement('div'); role.className = 'cand-role'; role.textContent = 'Kandidat Ketua OSIS';
+          meta.appendChild(nm); meta.appendChild(role);
+
+          // append input visually hidden but accessible
+          wrapper.appendChild(input);
+          wrapper.appendChild(avatar);
+          wrapper.appendChild(meta);
+
+          // click toggles the radio
+          wrapper.addEventListener('click', (e) => {
+            // ensure only radio changes
+            input.checked = true;
+            document.querySelectorAll('.candidate').forEach(el => el.classList.remove('selected'));
+            wrapper.classList.add('selected');
+          });
+
+          // keyboard support for label
+          wrapper.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' || e.key === ' '){
+              e.preventDefault();
+              wrapper.click();
+            }
+          });
+
+          candidateList.appendChild(wrapper);
+        });
+      }
+
+      // render results
+      function renderResults(){
+        const votes = readVotes();
+        const total = Object.values(votes).reduce((a,b)=>a+b,0);
+        resultsList.innerHTML = '';
+        CANDIDATES.forEach(c => {
+          const item = document.createElement('div');
+          item.className = 'result-item';
+          const avatar = document.createElement('div'); avatar.className='avatar'; avatar.style.width='44px'; avatar.style.height='44px';
+          avatar.textContent = c.name.split(' ').map(s=>s[0]||'').slice(0,2).join('').toUpperCase();
+          const inner = document.createElement('div'); inner.style.flex='1';
+          const name = document.createElement('div'); name.textContent = c.name; name.style.fontWeight='600';
+          const barWrap = document.createElement('div'); barWrap.className='bar'; barWrap.setAttribute('aria-hidden','true');
+          const barFill = document.createElement('i'); barFill.style.width = '0%';
+          barWrap.appendChild(barFill);
+
+          const count = document.createElement('div'); count.className='count'; count.textContent = votes[c.id] || 0;
+
+          inner.appendChild(name);
+          inner.appendChild(barWrap);
+          item.appendChild(avatar);
+          item.appendChild(inner);
+          item.appendChild(count);
+
+          resultsList.appendChild(item);
+
+          // animate width after appended
+          setTimeout(()=> {
+            const pct = total === 0 ? 0 : Math.round(( (votes[c.id]||0)/total )*100);
+            barFill.style.width = pct + '%';
+          }, 60);
+        });
+
+        totalVotersEl.textContent = total;
+      }
+
+      // Utility: get selected candidate
+      function getSelectedCandidate(){
+        const rad = document.querySelector('input[name="candidate"]:checked');
+        return rad ? rad.value : null;
+      }
+
+      // Validate form
+      function validate(){
+        const name = fullnameInput.value.trim();
+        const kelas = kelasInput.value.trim();
+        const selected = getSelectedCandidate();
+
+        if(name.length < 3){
+          alert('Nama lengkap minimal 3 karakter.');
+          fullnameInput.focus();
+          return false;
+        }
+        if(kelas.length < 1){
+          alert('Silakan isi Kelas.');
+          kelasInput.focus();
+          return false;
+        }
+        if(!selected){
+          alert('Pilih salah satu kandidat sebelum mengirim.');
+          candidateList.querySelector('.candidate').focus();
+          return false;
         }
 
-        document.getElementById("formContainer").style.display = "none";
-        document.getElementById("voteContainer").style.display = "block";
-    }
+        // optionally further checks for class format could be added
+        return true;
+      }
 
-    function vote(name) {
-        votes[name]++;
-        document.getElementById("hasil").innerHTML = `
-            Arini Ataka: ${votes.arini} suara<br>
-            Kaka Dwi Aprilianto: ${votes.kaka} suara<br>
-            Bagus: ${votes.bagus} suara
-        `;
-    }
-</script>
-</body>
-</html>
+      // Show confirmation modal
+      function openModal(candidateId){
+        const cand = CANDIDATES.find(c => c.id === candidateId);
+        modalCandidate.textContent = cand ? cand.name : candidateId;
+        modalName.textContent = fullnameInput.value.trim();
+        modalClass.textContent = kelasInput.value.trim();
+        modalBackdrop.style.display = 'flex';
+        modalBackdrop.setAttribute('aria-hidden','false');
+        modalCancel.focus();
+      }
 
+      function closeModal(){
+        modalBackdrop.style.display = 'none';
+        modalBackdrop.setAttribute('aria-hidden','true');
+      }
 
-Sudah! ✅
+      // Submit vote (after confirm)
+      function submitVote(candidateId){
+        // check if already voted on this device
+        if(localStorage.getItem(STORAGE_FLAG_VOTED)){
+          alert('Anda sudah memilih dari perangkat ini. Voting ganda tidak diperbolehkan (penanda lokal).');
+          return;
+        }
 
-Sekarang tampilan pemilihan OSIS:
+        const votes = readVotes();
+        votes[candidateId] = (votes[candidateId] || 0) + 1;
+        writeVotes(votes);
+        // flag as voted
+        localStorage.setItem(STORAGE_FLAG_VOTED, JSON.stringify({
+          name: fullnameInput.value.trim(),
+          kelas: kelasInput.value.trim(),
+          time: (new Date()).toISOString(),
+          candidate: candidateId
+        }));
 
-✨ Ada halaman pertama berisi:
+        renderResults();
+        closeModal();
+        // UX: disable form
+        disableFormAfterVote();
+        alert('Terima kasih — suara Anda telah direkam.');
+      }
 
-Nama
+      function disableFormAfterVote(){
+        voteForm.querySelectorAll('input, button').forEach(el => el.disabled = true);
+        voteForm.classList.add('voted');
+      }
 
-Kelas
+      function checkIfVotedAndDisable(){
+        const flag = localStorage.getItem(STORAGE_FLAG_VOTED);
+        if(flag){
+          disableFormAfterVote();
+          // optionally show who was chosen
+        }
+      }
 
-Tombol lanjut
+      // Event handlers
+      voteForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(!validate()) return;
+        const sel = getSelectedCandidate();
+        openModal(sel);
+      });
 
+      btnPreview.addEventListener('click', function(){
+        if(!validate()) return;
+        const sel = getSelectedCandidate();
+        const candName = CANDIDATES.find(c => c.id === sel).name;
+        alert('Pratinjau:\nNama: ' + fullnameInput.value.trim() + '\nKelas: ' + kelasInput.value.trim() + '\nKandidat: ' + candName);
+      });
 
-✨ Tema liquid glass elegan ala iPhone
-✨ Setelah mengisi data, baru masuk ke halaman voting
-✨ Vote akan menampilkan hasil jumlah suara
+      modalCancel.addEventListener('click', closeModal);
+      modalBackdrop.addEventListener('click', function(e){
+        if(e.target === modalBackdrop) closeModal();
+      });
 
-Kalau mau ditambah:
+      modalConfirm.addEventListener('click', function(){
+        const sel = getSelectedCandidate();
+        submitVote(sel);
+      });
 
-✅ animasi lebih mewah
-✅ card foto kandidat
-✅ hanya bisa vote sekali
-✅ tampilan hasil dengan grafik
-
-tinggal bilang ya 😁
+      // keyboard: escape closes modal
